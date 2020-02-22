@@ -21,7 +21,8 @@ public class FTClient
                 byte[] buf = new byte[1000];
                 int buflen;
 
-                while ((buflen = in.read(buf)) != -1) {
+                while ((buflen = in.read(buf)) != -1)
+                {
                     System.out.print("*");
                     out.write(buf, 0, buflen);
                 }
@@ -52,9 +53,20 @@ public class FTClient
                 byte[] buf = new byte[1000];
                 int buflen;
 
-                while ((buflen = in.read(buf)) != -1) {
-                    System.out.print("*");
-                    outf.write(buf, 0, buflen);
+                while ((buflen = in.read(buf)) != -1)
+                {
+                    String message = new String(buf);
+
+                    if (message.contains("Error:"))
+                    {
+                        outputFile.deleteOnExit();
+                        System.out.println(message);
+                    }
+                    else
+                    {
+                        System.out.print("*");
+                        outf.write(buf, 0, buflen);
+                    }
                 }
 
                 out.close();
